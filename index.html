@@ -3,186 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Онлайн-кав'ярня | Замовлення</title>
+    <title>Моя Кав'ярня - Оформлення замовлення</title>
     <style>
-        /* Базові налаштування та кольори */
-        :root { --primary: #6f4e37; --bg: #f8f5f0; --text: #333; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--bg); color: var(--text); padding-bottom: 40px; }
-        
-        /* Шапка */
-        header { background-color: var(--primary); color: white; text-align: center; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        
-        /* Адаптивна сітка (Responsive Design) */
-        .container { max-width: 1100px; margin: 25px auto; padding: 0 15px; display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } }
-        
-        /* Картки товарів */
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
-        .card h3 { color: var(--primary); margin-bottom: 8px; }
-        .card .desc { font-size: 0.9rem; color: #666; margin-bottom: 10px; }
-        .card .price { font-weight: bold; font-size: 1.1rem; color: #2e7d32; margin-bottom: 10px; }
-        
-        /* Кнопки */
-        .btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.2s; }
-        .btn:hover { background: #523928; }
-        .btn:disabled { background: #ccc; cursor: not-allowed; }
-        
-        /* Кошик */
-        .cart-panel { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: fit-content; }
-        .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 8px 0; font-size: 0.95rem; }
-        .input-group { margin-bottom: 15px; }
-        .input-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; margin-top: 5px; }
-        
-        /* Стани (Завантаження, Помилка, Успіх) */
-        .status-box { grid-column: 1 / -1; text-align: center; padding: 30px; background: white; border-radius: 10px; }
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .error-msg { color: #d32f2f; background: #ffebee; border: 1px solid #d32f2f; padding: 15px; border-radius: 6px; }
-        .success-msg { color: #2e7d32; background: #e8f5e9; padding: 10px; border-radius: 6px; text-align: center; margin-top: 15px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f5f2;
+            color: #4a3f35;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            display: flex;
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        h1, h2 { color: #6f4e37; }
+        .menu, .cart-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .menu { flex: 2; }
+        .cart-section { flex: 1; height: fit-content; }
+        .product-card {
+            border: 1px solid #e0d8d0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-info h3 { margin: 0 0 5px 0; }
+        .product-price { font-weight: bold; color: #2ecc71; }
+        button {
+            background-color: #6f4e37;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #5a3d2b; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        #cart-items { list-style: none; padding: 0; }
+        #cart-items li {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .cart-total { font-size: 1.2em; font-weight: bold; margin: 15px 0; border-top: 2px solid #eee; padding-top: 10px;}
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .order-btn { width: 100%; font-size: 1.1em; background-color: #27ae60; }
+        .order-btn:hover { background-color: #219653; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>☕ Меню онлайн-кав'ярні</h1>
-    </header>
-
-    <div class="container">
-        <!-- Блок меню -->
-        <main>
-            <h2 style="margin-bottom: 15px;">Асортимент</h2>
-            <div id="products-container" class="products-grid">
-                <!-- Стан завантаження -->
-                <div class="status-box">
-                    <div class="spinner"></div>
-                    <p>Завантаження меню...</p>
-                </div>
-            </div>
-        </main>
-
-        <!-- Блок кошика -->
-        <aside class="cart-panel">
-            <h2 style="margin-bottom: 15px;">Кошик</h2>
-            <div id="cart-list"><p style="color: #888; text-align: center;">Кошик порожній</p></div>
-            
-            <h3 style="margin: 20px 0; text-align: right;">Разом: <span id="total-price">0.00</span> грн</h3>
-            
-            <form id="order-form">
-                <div class="input-group">
-                    <label for="customer-name">Ваше ім'я:</label>
-                    <input type="text" id="customer-name" placeholder="Введіть ім'я..." required>
-                </div>
-                <button type="submit" class="btn" id="submit-btn" disabled>Оформити замовлення</button>
-            </form>
-            <div id="order-status"></div>
-        </aside>
+<div class="container">
+    <div class="menu">
+        <h1>Меню кав'ярні</h1>
+        <div id="products-list">
+            <p>Завантаження меню...</p>
+        </div>
     </div>
 
-    <script>
-        // УВАГА: ЗАМІНИ ПОРТ 7000 НА ТОЙ, ЩО ВКАЗАНИЙ У ТВОРЄМУ SWAGGER (НАПРИКЛАД 5001 АБО 7123)
-        const API_URL = 'https://localhost:7253/api'; 
+    <div class="cart-section">
+        <h2>Ваш кошик</h2>
+        <ul id="cart-items">
+            <li>Кошик порожній</li>
+        </ul>
+        <div class="cart-total">
+            Разом: <span id="total-price">0</span> грн
+        </div>
         
-        let products = [];
-        let cart = [];
+        <div>
+            <label for="customerName">Ваше ім'я:</label>
+            <input type="text" id="customerName" placeholder="Введіть ім'я для замовлення" required>
+            <button id="submitBtn" class="order-btn" onclick="submitOrder()">Замовити</button>
+        </div>
+    </div>
+</div>
 
-        // GET-запит: Отримання меню
-        async function fetchProducts() {
-            const container = document.getElementById('products-container');
-            try {
-                const response = await fetch(`${API_URL}/products`);
-                if (!response.ok) throw new Error('Помилка сервера');
-                
-                products = await response.json();
-                renderProducts(products);
-            } catch (error) {
-                // Обробка стану помилки
-                container.innerHTML = `
-                    <div class="error-msg">
-                        <h3>Не вдалося завантажити меню</h3>
-                        <p>Перевірте, чи запущений Back-end у Visual Studio.</p>
-                    </div>`;
+<script>
+    const API_BASE_URL = 'https://localhost:7253/api'; 
+    let cart = [];
+
+    async function loadProducts() {
+        const productsList = document.getElementById('products-list');
+        try {
+            const response = await fetch(`${API_BASE_URL}/products`);
+            if (!response.ok) throw new Error('Помилка сервера');
+            
+            const products = await response.json();
+            productsList.innerHTML = '';
+
+            if (products.length === 0) {
+                productsList.innerHTML = '<p>Меню наразі порожнє.</p>';
+                return;
             }
-        }
 
-        // Відображення карток товарів
-        function renderProducts(items) {
-            const container = document.getElementById('products-container');
-            container.innerHTML = '';
-            items.forEach(item => {
-                container.innerHTML += `
-                    <div class="card">
-                        <div>
-                            <h3>${item.name}</h3>
-                            <p class="desc">${item.description}</p>
-                        </div>
-                        <div>
-                            <p class="price">${item.price.toFixed(2)} грн</p>
-                            <button class="btn" onclick="addToCart(${item.id})">Додати в кошик</button>
-                        </div>
-                    </div>`;
+            products.forEach(product => {
+                const productEl = document.createElement('div');
+                productEl.className = 'product-card';
+                productEl.innerHTML = `
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <div class="product-price">${product.price} грн</div>
+                    </div>
+                    <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">Додати в кошик</button>
+                `;
+                productsList.appendChild(productEl);
             });
+        } catch (error) {
+            console.error('Помилка завантаження товарів:', error);
+            productsList.innerHTML = `
+                <p style="color: red;">Не вдалося підключитися до сервера (${API_BASE_URL}). Перевірте, чи запущено проєкт у Visual Studio.</p>
+                <button onclick="addMockProducts()">Показати тестове меню (без сервера)</button>
+            `;
+        }
+    }
+
+    function addToCart(id, name, price) {
+        const existingItem = cart.find(item => item.productId === id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ productId: id, name: name, price: price, quantity: 1 });
+        }
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const cartItemsEl = document.getElementById('cart-items');
+        const totalPriceEl = document.getElementById('total-price');
+        
+        cartItemsEl.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            cartItemsEl.innerHTML = '<li>Кошик порожній</li>';
+            totalPriceEl.innerText = '0';
+            return;
         }
 
-        // Логіка кошика
-        function addToCart(id) {
-            const item = products.find(p => p.id === id);
-            cart.push(item);
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const list = document.getElementById('cart-list');
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            
-            if (cart.length === 0) {
-                list.innerHTML = '<p style="color: #888; text-align: center;">Кошик порожній</p>';
-                document.getElementById('submit-btn').disabled = true;
-            } else {
-                list.innerHTML = cart.map(item => `<div class="cart-item"><span>${item.name}</span><strong>${item.price.toFixed(2)} грн</strong></div>`).join('');
-                document.getElementById('submit-btn').disabled = false;
-            }
-            document.getElementById('total-price').textContent = total.toFixed(2);
-        }
-
-        // POST-запит: Відправка замовлення
-        document.getElementById('order-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            const status = document.getElementById('order-status');
-            
-            btn.disabled = true;
-            status.innerHTML = '<div class="spinner" style="width:25px; height:25px; border-width:3px; margin-top:15px;"></div>';
-
-            const orderPayload = {
-                customerName: document.getElementById('customer-name').value,
-                itemsSummary: cart.map(i => i.name).join(', '),
-                totalAmount: cart.reduce((sum, i) => sum + i.price, 0)
-            };
-
-            try {
-                const response = await fetch(`${API_URL}/orders`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderPayload)
-                });
-
-                if (!response.ok) throw new Error('Помилка оформлення');
-                
-                // Обробка стану успіху
-                status.innerHTML = `<div class="success-msg">Замовлення успішно оформлено!</div>`;
-                cart = [];
-                updateCartUI();
-                document.getElementById('customer-name').value = '';
-            } catch (error) {
-                status.innerHTML = `<div class="error-msg" style="margin-top:15px; padding:10px;">Помилка відправки. Спробуйте ще раз.</div>`;
-                btn.disabled = false;
-            }
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>${item.name} (x${item.quantity})</span>
+                <span>${item.price * item.quantity} грн</span>
+            `;
+            cartItemsEl.appendChild(li);
         });
 
-        // Ініціалізація
-        fetchProducts();
-    </script>
+        totalPriceEl.innerText = total;
+    }
+
+    async function submitOrder() {
+        const customerNameInput = document.getElementById('customerName').value.trim();
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (!customerNameInput) {
+            alert('Будь ласка, введіть ваше ім\'я!');
+            return;
+        }
+        if (cart.length === 0) {
+            alert('Ваш кошик порожній. Додайте товари перед замовленням.');
+            return;
+        }
+
+        const orderPayload = {
+            customerName: customerNameInput,
+            items: cart.map(item => ({
+                productId: item.productId,
+                quantity: item.quantity
+            }))
+        };
+
+        try {
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Відправка...';
+
+            const response = await fetch(`${API_BASE_URL}/orders`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderPayload)
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                alert(`Успіх! Замовлення #${responseData.id || responseData.orderId} оформлено.`);
+                
+                cart = [];
+                document.getElementById('customerName').value = '';
+                updateCartUI();
+            } else {
+                const errorData = await response.json();
+                console.error('Помилка валідації сервера:', errorData);
+                alert('Помилка при створенні замовлення. Перевірте дані.');
+            }
+        } catch (error) {
+            console.error('Помилка відправки:', error);
+            alert('Помилка з\'єднання з сервером.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'Замовити';
+        }
+    }
+
+    function addMockProducts() {
+        const mockProducts = [
+            { id: 1, name: "Еспресо", price: 40 },
+            { id: 2, name: "Капучино", price: 65 },
+            { id: 3, name: "Круасан", price: 50 }
+        ];
+        const productsList = document.getElementById('products-list');
+        productsList.innerHTML = '';
+        mockProducts.forEach(product => {
+            productsList.innerHTML += `
+                <div class="product-card">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <div class="product-price">${product.price} грн</div>
+                    </div>
+                    <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">Додати в кошик</button>
+                </div>
+            `;
+        });
+    }
+
+    window.onload = loadProducts;
+</script>
+
 </body>
 </html>
