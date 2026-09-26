@@ -1,5 +1,5 @@
-﻿using CoffeeShopApi.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using CoffeeShopApi.Models;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -14,7 +14,6 @@ namespace CoffeeShopApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Додаємо початкові дані (меню кав'ярні)
             modelBuilder.Entity<Product>().HasData(
                 new Product { Id = 1, Name = "Еспресо", Price = 45.00m, Description = "Класичний міцний еспресо" },
                 new Product { Id = 2, Name = "Капучино", Price = 65.00m, Description = "Еспресо з гарячим молоком та густою пінкою" },

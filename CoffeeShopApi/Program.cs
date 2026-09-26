@@ -8,7 +8,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("CoffeeShopDb"));
-
+var app = builder.Build();
+app.UseMiddleware<CoffeeShopApi.Middlewares.ExceptionHandlingMiddleware>();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
